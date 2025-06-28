@@ -1,5 +1,6 @@
 """
 Application for update gold today
+MODULARIZATION WITH FUNCTION
 """
 
 
