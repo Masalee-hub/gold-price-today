@@ -32,11 +32,13 @@ def data_extraction():
     if content.status_code == 200:
         soup = BeautifulSoup(content.text,'html.parser')
         update_gold_today = soup.find('small', {'style': 'letter-spacing: 1px !important; font-size: 14px;'})
+        prices_daily_at = update_gold_today.text.split(',')[2]
+        update_gold_today = update_gold_today.text.split(',')[1]
 
 
         r = dict()
-        r['update gold today'] = update_gold_today.text # 'June, 28 2025'
-        r['prices are update daily at'] = '08:30 WIB'
+        r['update gold today'] = update_gold_today # 'June, 28 2025'
+        r['prices are update daily at'] = prices_daily_at # '08:30 WIB'
         r['weight'] = ('0.5 gr','1 gr', '2 gr', '3 gr', '4 gr', '5 gr', '10 gr', '25 gr','50 gr',
                    '100 gr','250 gr','500 gr','1000 gr')
         r[
@@ -56,8 +58,8 @@ def view_data(result):
         return
     print('Update Price Gold Today source lakuemas.com')
     print('\n')
-    print(f"Update gold today {result['update gold today']}")
-    print(f"prices are update daily at {result['prices are update daily at']}")
-    print(f"weight {result['weight'][5]}")
-    print(f"base price IDR {result['base price IDR'][5]}")
-    print(f"price +pph 0.25% IDR {result['price +pph 0.25% IDR'][5]}")
+    print(f"Update gold today{result['update gold today']}")
+    print(f"Prices are update daily at{result['prices are update daily at']}")
+    print(f"Weight{result['weight'][5]}")
+    print(f"Base price IDR{result['base price IDR'][5]}")
+    print(f"Price +pph 0.25% IDR{result['price +pph 0.25% IDR'][5]}")
