@@ -36,29 +36,36 @@ def data_extraction():
         prices_daily_at = results[2]
         update_gold_today = results[1]
 
-        results = soup.find('p', {'class':'font-weight-normal'}) # find weight
-        results = results.text.split(',')
-        weight = results[0]
+        results = soup.find('h3', {'class':'font-weight-bold'}) # find buy price
+        results = results.text
+        buy_price = results
 
-        results = soup.find('h3', {'class':'font-weight-bold'})
-        results = results.text.split(',,')
-        base_price_idr = results[0:3]
+        results = soup.find('p',{'class':'font-weight-normal'}) # find weight
+        results = results.text
+        weight1 = results
 
 
+        results = soup.find('div',{'class':'col-md-6 text-center border-left'})
+        results = results.findChildren()
+        i = 0
+        sell_price = None
+        weight2 = None
+        for res in results:
+            if i == 1:
+                sell_price = res.text
+            elif i == 2:
+                weight2 = res.text
+            i = i + 1
 
 
         r = dict()
-        r['update gold today'] = update_gold_today # 'June, 28 2025'
-        r['prices are update daily at'] = prices_daily_at       # '08:30 WIB'
-        r['weight'] = weight  # ('0.5 gr','1 gr', '2 gr', '3 gr', '4 gr', '5 gr', '10 gr', '25 gr','50 gr',
-                            # '100 gr','250 gr','500 gr','1000 gr')
-        r[
-        "base price IDR"] = base_price_idr # ('992,000','1,884,000','3,708,000','5,537,000','9,195,000','18,335,000',
-                            # '45,712,000','91,345,000','182,612,000','456,265,000','912,320,000',
-                            # '1,824,600,000')
-        r['price +pph 0.25% IDR'] = (
-        '994,480','1,888,710','3,717,270','5,550,843','9,217,988','18,380,838','45,826,280','91,573,363',
-                                 '183,068,530','457,405,663','914,600,800','1,829,161,500')
+        r['update gold today'] = update_gold_today
+        r['prices are update daily at'] = prices_daily_at
+        r['buy price IDR'] = buy_price
+        r['weight buy'] = weight1
+        r['sell price'] = sell_price
+        r['weight sell'] = weight2
+
         return r
     else:
         return None
@@ -71,6 +78,7 @@ def view_data(result):
     print('\n')
     print(f"Update gold today{result['update gold today']}")
     print(f"Prices are update daily at{result['prices are update daily at']}")
-    print(f"Weight {result['weight']}")
-    print(f"Base price IDR {result['base price IDR']}")
-    print(f"Price +pph 0.25% IDR {result['price +pph 0.25% IDR'][5]}")
+    print(f"Buy price {result['buy price IDR']}")
+    print(f"Weight : {result['weight buy']}")
+    print(f"Sell price {result['sell price']}")
+    print(f"Weight : {result['weight sell']}")
