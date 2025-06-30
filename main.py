@@ -1,8 +1,3 @@
-"""
-Application for update gold today
-MODULARIZATION WITH FUNCTION
-MODULARIZATION WITH PACKAGE
-"""
 import gold_today
 
 if __name__ == '__main__':
